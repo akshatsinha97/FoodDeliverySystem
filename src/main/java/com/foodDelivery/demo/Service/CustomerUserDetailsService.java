@@ -1,4 +1,4 @@
-package com.foodDelivery.demo.Configuration;
+package com.foodDelivery.demo.Service;
 
 import com.foodDelivery.demo.Model.User;
 import com.foodDelivery.demo.Repository.UserRepository;
@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(usernameOrEmail);
+        Optional<User> user = userRepository.findByEmail(usernameOrEmail);
         if(user != null){
             return new org.springframework.security.core.userdetails.User(user.getEmail()
                     , user.getPassword(),

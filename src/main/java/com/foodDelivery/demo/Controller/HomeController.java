@@ -6,7 +6,6 @@ import com.foodDelivery.demo.Service.CategoryService;
 import com.foodDelivery.demo.Service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -22,26 +21,30 @@ public class HomeController {
     @Autowired
     private FoodService foodService;
 
-    @GetMapping({"/","/home"})
-    public String Home(Model model){
-        model.addAttribute("allCategory", categoryService.getAllCategory());
-        model.addAttribute("allFoods", foodService.getAllFood());
-        return "home";
+    @GetMapping("/admin/categories")
+    public List<Category> getAllCategories(){
+        return categoryService.getAllCategory();
     }
-    @GetMapping("/home/categories/{category}")
-    public String category(@PathVariable Category category, Model model){
-        List<Food> foods = categoryService.getFoods(category.getId());
-        model.addAttribute("foods", foods);
-        return "foodsByCategory";
+    @GetMapping("/foods")
+    public List<Food> getAllFoods() {
+        return foodService.getAllFood();
+    }
+//    @GetMapping({"/","/home"})
+//    public String Home(Model model){
+//        model.addAttribute("allCategory", categoryService.getAllCategory());
+//        model.addAttribute("allFoods", foodService.getAllFood());
+//        return "home";
+//    }
+    @GetMapping("/home/categories/{id}")
+    public List<Food> category(@PathVariable int id){
+        return categoryService.getFoods(id);
     }
     @GetMapping("/home/foods/foodItem/{id}")
-    public String foodDisplay(@PathVariable int id, Model model){
+    public Food foodDisplay(@PathVariable int id) {
         Optional<Food> food = foodService.getFoodById(id);
         if (food.isPresent()) {
-            model.addAttribute("food", food);
-            return "foodDisplay";
-        } else {
-            return "error 404";
+            return food.get();
         }
+        return null;
     }
 }

@@ -26,6 +26,9 @@ public class Food {
     @Column(name = "foodPrice")
     private Float price;
 
+    @Column(name = "foodImage")
+    private String imageName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryId")
     private Category category;

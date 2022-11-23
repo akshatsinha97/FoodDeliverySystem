@@ -5,96 +5,104 @@ import com.foodDelivery.demo.Model.Food;
 import com.foodDelivery.demo.Service.CategoryService;
 import com.foodDelivery.demo.Service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class AdminController {
 
+    public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/images";
     @Autowired
     private CategoryService categoryService;
 
     @Autowired
     private FoodService foodService;
 
-    @GetMapping("/admin")
-    public String adminHome(){
-        return "adminHome";
-    }
+//    @GetMapping("/admin")
+//    public String adminHome(){
+//        return "adminHome";
+//    }
 
     @GetMapping("/admin/categories")
-    public String getAllCategories(Model model){
-        model.addAttribute("categories", categoryService.getAllCategory());
-        return "categories";
+    public List<Category> getAllCategories(){
+        return categoryService.getAllCategory();
     }
 
-    @GetMapping("/admin/Categories/add")
-    public  String fillCategory(Model model){
-        model.addAttribute("category", new Category());
-        return "categoriesAdd";
-    }
+//    @GetMapping("/admin/Categories/add")
+//    public  String fillCategory(Model model){
+//        model.addAttribute("category", new Category());
+//        return "categoriesAdd";
+//    }
 
     @PostMapping("/admin/Categories/add")
-    public String postCategory(@ModelAttribute("category") Category category){
+    public void postCategory(@RequestBody Category category){
         categoryService.addCategory(category);
-        return "redirect:/admin/categories";
     }
 
-    @PostMapping("/admin/updateCategory/{id}")
-    public String updateCategory(@PathVariable int id, Model model){
+    @PutMapping("/admin/updateCategory/{id}")
+    public void updateCategory(@RequestBody Category newcategory, @PathVariable int id){
         Optional<Category> category = categoryService.getCategoryById(id);
-        if (category.isPresent()){
-            model.addAttribute("category", category.get());
-            return "categoriesAdd";
-        } else {
-            return "error 404";
+        if (category.isPresent()) {
+            Category category1 = category.get();
+            category1.setName(newcategory.getName());
+            category1.setCategoryCount(newcategory.getCategoryCount());
+            category1.setFoods(newcategory.getFoods());
+            categoryService.addCategory(category1);
+            }
         }
-    }
 
     @GetMapping("/admin/categories/delete/{id}")
-    public String deleteCategory(@PathVariable int id){
+    public void deleteCategory(@PathVariable int id){
         categoryService.removeById(id);
-        return "redirect:/admin/categories";
     }
 
     @GetMapping("/admin/foods")
-    public String getAllFoods(Model model) {
-        model.addAttribute("foods", foodService.getAllFood());
-        return "foods";
+    public List<Food> getAllFoods() {
+        return foodService.getAllFood();
     }
 
-    @GetMapping("/admin/foods/add")
-    public String postFood(Model model){
-        model.addAttribute("food", new Food());
-        return "foodAdd";
-    }
+//    @GetMapping("/admin/foods/add")
+//    public String postFood(@RequestBody Food food){
+//        model.addAttribute("food", new Food());
+//        return "foodAdd";
+//    }
 
     @PostMapping("/admin/foods/add")
-    public String postFood(@ModelAttribute("food") Food food){
+    public void postFood(@RequestBody Food food, @RequestParam MultipartFile file,
+                         @RequestParam("imgName")String imgName) throws IOException {
+        String imageUUID;
+        if(!file.isEmpty()){
+            imageUUID = file.getOriginalFilename();
+            Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
+            Files.write(fileNameAndPath, file.getBytes());
+        }else {
+            imageUUID = imgName;
+        }
+        food.setImageName(imageUUID);
         foodService.addFood(food);
-        return "redirect:/admin/foods";
     }
 
-    @PostMapping("/admin/foods/updateFood/{id}")
-    public String updateFood(@PathVariable int id, Model model){
+    @PutMapping("/admin/foods/updateFood/{id}")
+    public void updateFood(@PathVariable int id,@RequestBody Food newfood){
         Optional<Food> food = foodService.getFoodById(id);
         if (food.isPresent()){
-            model.addAttribute("food", food.get());
-            return "/admin/foods";
-        } else {
-            return "error 404";
+            Food food1 = food.get();
+            food1.setName(newfood.getName());
+            food1.setDescription(newfood.getDescription());
+            food1.setPrice(newfood.getPrice());
+            food1.setCategory(newfood.getCategory());
+            food1.setImageName(newfood.getImageName());
         }
     }
     @GetMapping("/admin/foods/delete/{id}")
-    public String deleteFood(@PathVariable int id){
+    public void deleteFood(@PathVariable int id){
         foodService.removeById(id);
-        return "redirect:/admin/foods";
     }
-
 }

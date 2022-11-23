@@ -23,6 +23,7 @@ public class LoginController {
 
     @PostMapping("/home/login")
     public String loginUser(@RequestBody User user){
+        user
         return "login";
     }
     @GetMapping("/home/register")

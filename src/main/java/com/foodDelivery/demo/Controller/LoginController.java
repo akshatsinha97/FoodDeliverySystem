@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -23,7 +23,6 @@ public class LoginController {
 
     @PostMapping("/home/login")
     public String loginUser(@RequestBody User user){
-        user
         return "login";
     }
     @GetMapping("/home/register")

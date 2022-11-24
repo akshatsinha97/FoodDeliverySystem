@@ -16,9 +16,9 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public int findUserId(User user){
-        return userRepository.
-    }
+//    public int findUserId(User user){
+//        return userRepository.
+//    }
     public Optional<User> findUser(int id){
         return userRepository.findById(id);
     }

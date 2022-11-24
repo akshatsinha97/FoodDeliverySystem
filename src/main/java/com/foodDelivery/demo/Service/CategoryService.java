@@ -24,7 +24,7 @@ public class CategoryService {
     }
 
     public List<Food> getFoods(int id){
-        return categoryRepository.findAllByCategoryId(id);
+        return categoryRepository.findAllByid(id);
     }
 
     public void addCategory(Category category){

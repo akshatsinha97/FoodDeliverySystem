@@ -30,6 +30,6 @@ public class Food {
     private String imageName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "CategoryId")
     private Category category;
 }

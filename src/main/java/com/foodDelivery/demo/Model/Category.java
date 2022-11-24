@@ -15,7 +15,7 @@ import java.util.List;
 public class Category {
 
     @Id
-    @Column(name = "categoryId")
+    @Column(name = "CategoryId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
@@ -25,6 +25,6 @@ public class Category {
     @Column(name = "categoryCount")
     private int categoryCount;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoryId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private List<Food> foods;
 }

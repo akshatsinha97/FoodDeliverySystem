@@ -25,12 +25,4 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-//	@Override
-//	public void run(String... args) throws Exception{
-//		//Inserting the data into MySQL table at startup
-//		Role userRole1 = new Role(1, "Admin",null);
-//		Role userRole2 = new Role(2, "User",null);
-
-//		userRepository.save(userRole1);
-//	}
 }

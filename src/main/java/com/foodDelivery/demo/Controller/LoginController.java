@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,15 +38,15 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<HttpStatus> login(@RequestBody User user) throws Exception {
 
-        Authentication authObject = null;
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authObject);
-        } catch (BadCredentialsException e) {
+        UsernamePasswordAuthenticationToken authreq = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        Authentication auth = authenticationManager.authenticate(authreq);
+        SecurityContext sc = SecurityContextHolder.getContext();
+        sc.setAuthentication(auth);
+        if (sc.getAuthentication().isAuthenticated()){
+            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        } else {
             throw new Exception("Invalid credentials");
         }
-
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
     @PostMapping("/register")
     public void registerUser(@RequestBody User user, HttpServletRequest request) throws ServletException {

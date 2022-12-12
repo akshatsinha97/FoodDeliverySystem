@@ -52,8 +52,6 @@ public class AdminController {
         if (category.isPresent()) {
             Category category1 = category.get();
             category1.setName(newcategory.getName());
-            category1.setCategoryCount(newcategory.getCategoryCount());
-            category1.setFoods(newcategory.getFoods());
             categoryService.addCategory(category1);
             }
         }

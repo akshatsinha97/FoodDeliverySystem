@@ -15,7 +15,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int userId;
+    private int id;
 
     @Column(nullable = false)
     private String firstName;
@@ -35,7 +35,7 @@ public class User {
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "userId")},
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "Role_ID", referencedColumnName = "roleId")}
     )
     private List<Role> roles;

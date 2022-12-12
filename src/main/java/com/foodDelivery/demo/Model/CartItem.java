@@ -8,23 +8,25 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+@Table
+public class CartItem {
 
     @Id
-    @Column(name = "CategoryId")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "CartItemId")
     private int id;
 
-    @Column(name = "categoryName")
-    private String name;
+    @Column(name = "FoodQuantity")
+    private int quantity;
 
-    @Column(name = "foodCount")
-    private int foodCount;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Food.class)
+    @JoinColumn(name="FoodId")
     private List<Food> foods;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "UserId")
+    private User user;
 }

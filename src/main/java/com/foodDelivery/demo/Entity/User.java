@@ -1,4 +1,4 @@
-package com.foodDelivery.demo.Model;
+package com.foodDelivery.demo.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class User {
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "User_ID", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "Role_ID", referencedColumnName = "roleId")}
     )
     private List<Role> roles;

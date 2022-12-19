@@ -1,7 +1,7 @@
 package com.foodDelivery.demo.Controller;
 
-import com.foodDelivery.demo.Model.Category;
-import com.foodDelivery.demo.Model.Food;
+import com.foodDelivery.demo.Entity.Category;
+import com.foodDelivery.demo.Entity.Food;
 import com.foodDelivery.demo.Service.CategoryService;
 import com.foodDelivery.demo.Service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class AdminController {
             }
         }
 
-    @GetMapping("/admin/categories/delete/{id}")
+    @DeleteMapping("/admin/categories/delete/{id}")
     public void deleteCategory(@PathVariable int id){
         categoryService.removeById(id);
     }
@@ -99,7 +99,7 @@ public class AdminController {
             food1.setImageName(newfood.getImageName());
         }
     }
-    @GetMapping("/admin/foods/delete/{id}")
+    @DeleteMapping("/admin/foods/delete/{id}")
     public void deleteFood(@PathVariable int id){
         foodService.removeById(id);
     }

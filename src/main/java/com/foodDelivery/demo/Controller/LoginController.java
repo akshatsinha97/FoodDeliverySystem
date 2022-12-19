@@ -1,65 +1,60 @@
 package com.foodDelivery.demo.Controller;
 
-import com.foodDelivery.demo.Model.Role;
-import com.foodDelivery.demo.Model.User;
+import com.foodDelivery.demo.Entity.User;
 import com.foodDelivery.demo.Repository.RoleRepository;
 import com.foodDelivery.demo.Repository.UserRepository;
+import com.foodDelivery.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.net.URI;
 
 @Controller
 public class LoginController {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    private UserService userService;
+
     @Autowired
     AuthenticationManager authenticationManager;
-    @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody User user) throws Exception {
-
-        UsernamePasswordAuthenticationToken authreq = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-        Authentication auth = authenticationManager.authenticate(authreq);
-        SecurityContext sc = SecurityContextHolder.getContext();
-        sc.setAuthentication(auth);
-        if (sc.getAuthentication().isAuthenticated()){
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-        } else {
-            throw new Exception("Invalid credentials");
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<HttpStatus> login(@RequestBody User user) throws Exception {
+//
+//        Authentication authObject = null;
+//        try {
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+//            SecurityContextHolder.getContext().setAuthentication(authObject);
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("Invalid credentials");
+//        }
+//
+//        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+//    }
     @PostMapping("/register")
-    public void registerUser(@RequestBody User user, HttpServletRequest request) throws ServletException {
-        Optional<User> exists = userRepository.findByEmail(user.getEmail());
-        if (exists.isPresent()){
-            throw new ServletException("User email already exists");
-        }else {
-            String password = user.getPassword();
-            user.setPassword(bCryptPasswordEncoder.encode(password));
-            List<Role> roles = new ArrayList<>();
-            roles.add(roleRepository.findById(2).get());
-            userRepository.save(user);
-            request.login(user.getEmail(), password);
+    public ResponseEntity<User> registerUser(@RequestBody User user, HttpServletRequest request) throws ServletException {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/register").toUriString());
+        user.getRoles().add(roleRepository.findByname("User"));
+        return ResponseEntity.created(uri).body(userService.saveUser(user));
         }
-    }
+
 }

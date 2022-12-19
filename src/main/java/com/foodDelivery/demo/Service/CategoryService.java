@@ -1,9 +1,8 @@
 package com.foodDelivery.demo.Service;
 
-import com.foodDelivery.demo.Model.Category;
-import com.foodDelivery.demo.Model.Food;
+import com.foodDelivery.demo.Entity.Category;
+import com.foodDelivery.demo.Entity.Food;
 import com.foodDelivery.demo.Repository.CategoryRepository;
-//import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

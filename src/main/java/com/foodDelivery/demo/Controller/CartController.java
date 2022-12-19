@@ -1,17 +1,13 @@
 package com.foodDelivery.demo.Controller;
 
-import com.foodDelivery.demo.Model.CartItem;
-import com.foodDelivery.demo.Model.Food;
-import com.foodDelivery.demo.Model.User;
+import com.foodDelivery.demo.Entity.Food;
+import com.foodDelivery.demo.Entity.User;
 import com.foodDelivery.demo.Service.CartItemService;
-import com.foodDelivery.demo.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

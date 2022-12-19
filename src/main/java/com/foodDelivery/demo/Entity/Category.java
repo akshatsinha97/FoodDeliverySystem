@@ -1,4 +1,4 @@
-package com.foodDelivery.demo.Model;
+package com.foodDelivery.demo.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

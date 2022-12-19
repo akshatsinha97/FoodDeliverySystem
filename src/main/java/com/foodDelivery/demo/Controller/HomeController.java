@@ -1,7 +1,7 @@
 package com.foodDelivery.demo.Controller;
 
-import com.foodDelivery.demo.Model.Category;
-import com.foodDelivery.demo.Model.Food;
+import com.foodDelivery.demo.Entity.Category;
+import com.foodDelivery.demo.Entity.Food;
 import com.foodDelivery.demo.Service.CategoryService;
 import com.foodDelivery.demo.Service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.foodDelivery.demo.Repository;
 
-import com.foodDelivery.demo.Model.Category;
-import com.foodDelivery.demo.Model.Food;
+import com.foodDelivery.demo.Entity.Category;
+import com.foodDelivery.demo.Entity.Food;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

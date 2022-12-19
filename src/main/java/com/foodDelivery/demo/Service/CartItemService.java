@@ -1,9 +1,9 @@
 package com.foodDelivery.demo.Service;
 
 import com.foodDelivery.demo.Exception.CartItemNotExistException;
-import com.foodDelivery.demo.Model.CartItem;
-import com.foodDelivery.demo.Model.Food;
-import com.foodDelivery.demo.Model.User;
+import com.foodDelivery.demo.Entity.CartItem;
+import com.foodDelivery.demo.Entity.Food;
+import com.foodDelivery.demo.Entity.User;
 import com.foodDelivery.demo.Repository.CartItemRepository;
 import com.foodDelivery.demo.Repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
